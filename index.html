@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resonate — the offline music player</title>
+<meta name="description" content="An advanced, privacy-first offline music player for iOS. Folder-first browsing, on-device stem separation, haptic bass. Your files, your device, no account.">
+<meta property="og:title" content="Resonate — the offline music player">
+<meta property="og:description" content="Folder-first browsing, on-device stem separation, haptic bass. Your files, your device, no account.">
+<meta property="og:image" content="icon.png">
+<link rel="icon" href="icon.png">
+<style>
+  :root{
+    --void:#08090B; --surface:#101317; --raised:#171B21; --hairline:#232A33;
+    --ink:#ECEFF3; --muted:#8C97A4; --faint:#55606D;
+    --cyan:#3CDAFF; --amber:#FFA53C; --magenta:#FF3CC8; --yellow:#FFE23C;
+    --max:1080px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--void); color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 24px}
+  .legend{
+    font-size:11px; font-weight:700; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--faint); margin:0 0 14px;
+  }
+
+  /* Hero */
+  header{position:relative; overflow:hidden; padding:96px 0 72px}
+  header::after{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(60% 55% at 72% 22%, rgba(60,218,255,.16), transparent 70%);
+    pointer-events:none;
+  }
+  .hero{position:relative; z-index:1; display:flex; gap:44px; align-items:center; flex-wrap:wrap}
+  .hero img{
+    width:150px; height:150px; border-radius:33px; flex:none;
+    box-shadow:0 0 0 1px rgba(255,255,255,.06), 0 24px 70px rgba(60,218,255,.22);
+  }
+  .hero h1{font-size:clamp(40px,7vw,64px); line-height:1.02; margin:0 0 12px; letter-spacing:-.03em}
+  .tagline{color:var(--cyan); font-size:clamp(17px,2.4vw,21px); font-weight:600; margin:0 0 16px}
+  .lede{color:var(--muted); font-size:17px; max-width:52ch; margin:0}
+  .rule{height:1px; background:var(--hairline); margin:0}
+
+  /* The three stems, as a divider */
+  .stems{display:flex; gap:5px; margin:26px 0 0; max-width:320px}
+  .stems span{height:5px; border-radius:3px; flex:1}
+  .stems span:nth-child(1){background:var(--cyan); box-shadow:0 0 14px var(--cyan)}
+  .stems span:nth-child(2){background:var(--magenta); box-shadow:0 0 14px var(--magenta)}
+  .stems span:nth-child(3){background:var(--yellow); box-shadow:0 0 14px var(--yellow)}
+
+  section{padding:72px 0}
+  h2{font-size:clamp(26px,3.6vw,34px); margin:0 0 10px; letter-spacing:-.02em}
+  .sub{color:var(--muted); max-width:60ch; margin:0 0 36px}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(268px,1fr)); gap:16px}
+  .card{
+    background:var(--surface); border:1px solid var(--hairline);
+    border-radius:16px; padding:22px;
+  }
+  .card h3{margin:0 0 8px; font-size:17px}
+  .card p{margin:0; color:var(--muted); font-size:14.5px}
+  .card .k{
+    display:inline-block; font-size:10px; font-weight:800; letter-spacing:.12em;
+    padding:3px 7px; border-radius:5px; margin-bottom:12px;
+  }
+  .free{background:rgba(60,218,255,.14); color:var(--cyan)}
+  .pro{background:rgba(255,165,60,.14); color:var(--amber)}
+
+  .split{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:44px; align-items:start}
+  ul.plain{list-style:none; padding:0; margin:0}
+  ul.plain li{padding:11px 0; border-bottom:1px solid var(--hairline); color:var(--muted); font-size:15px}
+  ul.plain li::before{content:"—"; color:var(--faint); margin-right:10px}
+  ul.plain li:last-child{border-bottom:0}
+
+  .price{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-top:8px}
+  .tier{background:var(--surface); border:1px solid var(--hairline); border-radius:16px; padding:24px}
+  .tier.best{border-color:rgba(255,165,60,.42); box-shadow:0 0 40px rgba(255,165,60,.09)}
+  .tier .amt{font-size:32px; font-weight:800; letter-spacing:-.02em; margin:6px 0 4px}
+  .tier .note{color:var(--faint); font-size:13px; margin:0}
+
+  footer{padding:56px 0 76px; color:var(--faint); font-size:13.5px}
+  footer a{color:var(--muted)}
+  a{color:var(--cyan)}
+  @media (max-width:640px){
+    header{padding:64px 0 52px}
+    .hero{gap:28px}
+    .hero img{width:112px; height:112px; border-radius:25px}
+    section{padding:56px 0}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hero">
+    <img src="icon.png" alt="Resonate app icon: concentric vinyl grooves splitting into three neon lines">
+    <div>
+      <h1>Resonate</h1>
+      <p class="tagline">The advanced, privacy-first offline player.</p>
+      <p class="lede">
+        Your music lives on your device. No account, no streaming, nothing watching what you
+        listen to. Just an unusually capable player for files you already own.
+      </p>
+      <div class="stems"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="rule"></div>
+
+<section>
+  <div class="wrap">
+    <p class="legend">What it does</p>
+    <h2>Built for people who keep their own music</h2>
+    <p class="sub">
+      Bootlegs, live sets, DJ mixes, classical box sets, lossless rips — the collections that
+      every mainstream player organises badly.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <span class="k free">Free</span>
+        <h3>Folder-first browsing</h3>
+        <p>Navigates the directories actually on disk, not an imposed Artist ▸ Album hierarchy. Metadata sorting is an option inside a folder, not a cage around it.</p>
+      </div>
+      <div class="card">
+        <span class="k free">Free</span>
+        <h3>Every format that matters</h3>
+        <p>FLAC, ALAC, WAV, AIFF, MP3, AAC. Lossless files are badged as such, because the difference is the point.</p>
+      </div>
+      <div class="card">
+        <span class="k free">Free</span>
+        <h3>The Precision Wave scrubber</h3>
+        <p>The transport is the waveform — geometric bars drawn from the track's own amplitude envelope, breathing with the low end as it plays.</p>
+      </div>
+      <div class="card">
+        <span class="k pro">Pro</span>
+        <h3>Stem separation, on device</h3>
+        <p>Split any file into vocals, drums, bass and other in seconds. Nothing uploaded, works with the network off. Isolate a part mid-song without a gap.</p>
+      </div>
+      <div class="card">
+        <span class="k pro">Pro</span>
+        <h3>Haptic bass</h3>
+        <p>The Taptic Engine follows the 20–160 Hz band in real time. A sustained layer for the bassline, a transient hit for the kick.</p>
+      </div>
+      <div class="card">
+        <span class="k pro">Pro</span>
+        <h3>A theme engine that means it</h3>
+        <p>Not a colour swap. A platter turning at 33⅓ with a tonearm that tracks the song, or a cassette whose reels spool in real time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <div class="wrap split">
+    <div>
+      <p class="legend">Discover</p>
+      <h2>“Do I already own this?”</h2>
+      <p class="sub">
+        Point it at whatever is playing in the room. Resonate recognises the song acoustically
+        against a catalogue built from your own files — offline, on device — and plays your copy.
+        Your rip, your bitrate, no network.
+      </p>
+      <p class="sub">
+        If you don't own it, it goes to a Discovery Log with where and when you heard it, and a
+        link to buy it. Copyrighted audio is never downloaded.
+      </p>
+    </div>
+    <div>
+      <p class="legend">Privacy, concretely</p>
+      <ul class="plain">
+        <li>No account, no sign-in, no analytics</li>
+        <li>Library, play counts and discovery log never leave the device</li>
+        <li>Stem separation and song matching run locally</li>
+        <li>Network used only to name unowned songs, fetch artwork, check for updates and serve ads in the free tier</li>
+        <li>Location is opt-in and off by default</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <div class="wrap">
+    <p class="legend">Pro</p>
+    <h2>Pay once, or don't</h2>
+    <p class="sub">
+      The free tier is a complete player, not a demo. Pro adds the heavy features and removes
+      every ad. There is no server behind this app, so a one-time price is the honest offer.
+    </p>
+    <div class="price">
+      <div class="tier best">
+        <p class="legend" style="margin:0">Lifetime</p>
+        <p class="amt">£24.99</p>
+        <p class="note">Once. Yours for good.</p>
+      </div>
+      <div class="tier">
+        <p class="legend" style="margin:0">Yearly</p>
+        <p class="amt">£9.99<span style="font-size:15px;font-weight:500;color:var(--faint)">/yr</span></p>
+        <p class="note">Cancel any time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<footer>
+  <div class="wrap">
+    <p>Resonate for iOS 16 and later. Built with SwiftUI, AVAudioEngine and StoreKit 2.</p>
+    <p><a href="privacy.html">Privacy policy</a> · <a href="support.html">Support</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
